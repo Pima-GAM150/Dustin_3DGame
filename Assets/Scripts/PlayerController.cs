@@ -5,11 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float Speed;
-    public float Turn;
-    public float JumpSpeed;
     public float JumpHeight;
     public Rigidbody Rigbod;
-
+    
     private float vert;
     private float horiz;
     private Vector3 movement;
@@ -26,28 +24,19 @@ public class PlayerController : MonoBehaviour {
         vert = Input.GetAxis("Vertical");
         horiz = Input.GetAxis("Horizontal");
 
-        movement = new Vector3( horiz, 0.0f, vert );
-       
-        Rigbod.AddForce(movement * Speed * Time.deltaTime);
-        if(Input.GetKeyDown("v"))
+        movement = new Vector3( horiz, 0.0f, vert );   
+        
+        if(Input.GetButtonDown("Jump") )
         {
-            StopRolling();
-        }
-
-        if(Input.GetAxis("Jump")>0)
-        {
-
             JumpUp();
         }
+
+        Rigbod.AddForce(movement * Speed);
+        
     }
 
-    private void StopRolling()
-    {
-        Rigbod.velocity = Vector3.zero;
-    }
     private void JumpUp()
     {
-        if(transform.position.y <= transform.position.y + JumpHeight)
-            Rigbod.AddForce(Vector3.up * JumpSpeed * Time.deltaTime);
+        movement.y = JumpHeight;
     }
 }
