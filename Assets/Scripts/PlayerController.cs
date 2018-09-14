@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
     public float Speed;
     public float JumpHeight;
     public Rigidbody Rigbod;
+    public Collider PlayerCollider;
     
     private float vert;
     private float horiz;
@@ -39,4 +40,6 @@ public class PlayerController : MonoBehaviour {
     {
         movement.y = JumpHeight;
     }
+
+    
 }
