@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour {
     public float Speed;
     public float JumpHeight;
     public Rigidbody Rigbod;
-    public Collider PlayerCollider;
     public bool CanJump;
     
     private float vert;
@@ -20,7 +19,7 @@ public class PlayerController : MonoBehaviour {
     {
         movement = new Vector3(0, 0, 0);
         turn = new Vector3(0, 0, 0);
-        jump = new Vector3(0, 0, 0);
+        jump = new Vector3(0, JumpHeight*75, 0);
         CanJump = true;
     }
 
@@ -31,24 +30,18 @@ public class PlayerController : MonoBehaviour {
 
         movement = new Vector3( 0.0f, 0.0f, vert );
         turn = new Vector3( 0.0f, horiz, 0.0f );
-        
-        transform.Translate(movement*Speed);
-        transform.Rotate(turn*Speed);
-        
-    }
-    private void FixedUpdate()
-    {
-        if( Input.GetButtonDown("Jump") && CanJump )
+
+        if (Input.GetButtonDown("Jump") && CanJump)
         {
             JumpUp();
         }
-    }
 
-    private void JumpUp()
-    {
-        jump = transform.position + Vector3.up * JumpHeight;
-        transform.Translate(Vector3.Lerp(transform.position,jump, 1.0f/6.0f));
+        transform.Translate(movement*Speed);
+        transform.Rotate(turn*Speed);
     }
-
     
+    void JumpUp()
+    {
+        Rigbod.AddForce(jump);
+    }
 }
