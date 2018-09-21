@@ -5,34 +5,38 @@ public class DetectPlayer : MonoBehaviour
 {
 
     public GameObject Player;
-    public float VisionRadius;
     public NavMeshAgent NavMesh;
-    public Vector3 Offset;
 
-    private bool PlayerDetected;
-    private RaycastHit hit;
-
-    private void FixedUpdate()
+    private float IniSpeed, AdjSpeed;
+    private void Start()
     {
-        if (NavMesh.isActiveAndEnabled)
+        IniSpeed = NavMesh.speed;
+        AdjSpeed = NavMesh.speed * 20;
+    }
+
+    private void Update()
+    {
+        if(NavMesh.isActiveAndEnabled)
         {
-            if (Physics.Raycast(transform.position, Player.transform.position, out hit) && hit.distance <= VisionRadius )
+            NavMesh.SetDestination(Player.transform.position);
+
+            if (Vector3.Distance(Player.transform.position, transform.position) >= 10.0f)
             {
-                NavMesh.SetDestination(Player.transform.position);
+                NavMesh.speed = AdjSpeed;
+            }
+            else
+            {
+                NavMesh.speed = IniSpeed;
             }
         }
+
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!NavMesh.isActiveAndEnabled)
-            NavMesh.enabled = true;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (NavMesh.isActiveAndEnabled)
         {
-            NavMesh.destination = Player.transform.position - Offset;
+            NavMesh.enabled = true;
         }
     }
 }
