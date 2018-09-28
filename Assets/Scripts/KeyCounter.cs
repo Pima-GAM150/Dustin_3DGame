@@ -27,9 +27,10 @@ public class KeyCounter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ( collision.gameObject.tag == "Key")
+        if ( collision.gameObject.tag == "key")
         {
             NumberOfKeys++;
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.tag == "Enemy")
         {
